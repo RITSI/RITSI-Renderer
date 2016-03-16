@@ -1,0 +1,38 @@
+#header{
+	height: 10%;
+	background-color: #aaa;
+	margin: 0;
+}
+
+#header img{
+	height: 100%;
+	float: left;
+}
+
+.container{
+
+}
+
+#text-input{
+	float: left;
+	min-width: 75%;
+	height: 85%;
+}
+
+#text-input textarea{
+	width: 100%;
+	height: 100%;
+	resize: none;
+}
+
+#image-input{
+	float: left;
+	min-width: 25%;
+	height: 85%;
+}
+
+#image-input textarea{
+	width: 100%;
+	height: 100%;
+	resize: none;
+}

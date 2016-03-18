@@ -40,47 +40,21 @@ file_selector.onchange = function(e){
 form.onsubmit = function(e){
     e.preventDefault();
     var form_data = new FormData();
+    var received_file_name = "render.zip";
     files.forEach(function(file){
        form_data.append(file.given_name, file.file);
     });
     form_data.append("markdown-data", document.getElementById('text-input-area').value);
     var xhr = new XMLHttpRequest();
-    /*xhr.open("POST", "/render/", true);
+    xhr.open("POST", "/render/", true);
     xhr.setRequestHeader("Accept","application/zip");
-    xhr.send(form_data);
-
+    xhr.responseType = "blob";
     xhr.onload = function(e){
-        if(this.status==200){
-            console.log(this);
-        }
-    }*/
-
-
-    xhr.open("GET", "/delete/demo.zip", true);
-    xhr.setRequestHeader("Accept", "application/zip");
-    xhr.responseType="blob";
-    xhr.onload = function(e) {
-      // response is unsigned 8 bit integer
-      var responseArray = new Uint8Array(this.response);
-        console.log(this);
-        saveAs(xhr.response, 'demo.zip')
+        console.log("Here")
+        if(this.status==200)
+            saveAs(this.response, received_file_name);
     };
-     xhr.send()
-
-    console.log(xhr)
-
-    /*var blob = new Blob([xhr.response], {type: "application/zip"});
-    saveAs(blob, 'file.zip');
-    return;
-    console.log(blob.size)
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
-    url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = "Something.zip";
-    a.click();*/
-    //window.URL.revokeObjectURL(url);
+    xhr.send(form_data);
 };
 
 var send = function(){

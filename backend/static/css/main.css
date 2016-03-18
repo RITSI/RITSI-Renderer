@@ -1,7 +1,14 @@
+body{
+    margin: 0;
+    padding: 0;
+}
 #header{
+
+    top: 0;
+    margin: 0;
 	height: 10%;
+    width: 100%;
 	background-color: #aaa;
-	margin: 0;
 }
 
 #header img{
@@ -15,8 +22,8 @@
 
 #text-input{
 	float: left;
-	min-width: 75%;
-	height: 85%;
+	width: 75%;
+	height: 90%;
 }
 
 #text-input textarea{
@@ -25,14 +32,24 @@
 	resize: none;
 }
 
-#image-input{
-	float: left;
-	min-width: 25%;
-	height: 85%;
+div#sidebar{
+	height: 90%;
 }
 
-#image-input textarea{
-	width: 100%;
-	height: 100%;
-	resize: none;
+div #file-input{
+	float: left;
+	width: 25%;
+	height: 75%;
+	background: #ededed;
+}
+
+div #options {
+	float: left;
+	width: 25%;
+	height: 20%;
+	background: #897d63;
+}
+
+#file-help-text {
+
 }

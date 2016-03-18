@@ -72,3 +72,25 @@ var send = function(){
 	xhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	xhttp.send(JSON.stringify({text:"text"}))
 };
+
+var removeFile = function(htmlElement){
+
+};
+
+var insertText = function(htmlElement){
+
+};
+
+document.getElementById('files').addEventListener("click", function(e){
+    e.preventDefault();
+    if(e.target && (e.target.matches('i.file-control-icon') || e.target.matches('a.file-control'))){
+
+        if(e.target.classList.contains('file-control-insert')){
+            removeFile(e.target);
+        }
+
+        else if(e.target.classList.contains('file-control-delete')){
+            insertText(e.target);
+        }
+    }
+});

@@ -53,3 +53,36 @@ div #options {
 #file-help-text {
 
 }
+
+div#file-input{
+	text-align: center;
+}
+
+#files{
+	list-style: none;
+	margin-left: 0;
+	padding-left:0;
+}
+
+.file{
+	box-sizing: border-box;
+	text-align: left;
+	width: 100%;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	background-color: #e04543;
+}
+
+.file:hover{
+	background-color: #ea7b79;
+}
+
+.file-control{
+	margin-left: 5px;
+}
+
+.pull-right{
+	float: right;
+}

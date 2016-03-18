@@ -13,6 +13,10 @@ from markdown import Markdown
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 STATIC_DIR = os.path.join(CURRENT_DIR, 'static')
 
+# Folders within the zip file. Make sure that they are the same as in the Frontend
+IMAGES_DIR = 'images'
+DATA_DIR = 'data'
+
 PORT = 9000
 
 class RenderHandler(tornado.web.RequestHandler):

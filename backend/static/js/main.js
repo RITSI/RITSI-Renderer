@@ -1,3 +1,8 @@
+var supportsDragAndDrop = (function() {
+    var div = document.createElement('div');
+    return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+})();
+
 document.addEventListener('DOMContentLoaded', function(e){
 	var submitButton = document.getElementById('submit');
 
@@ -7,51 +12,47 @@ document.addEventListener('DOMContentLoaded', function(e){
 
 var file_selector = document.getElementById("file-selector");
 var form = document.getElementById("dataform");
-var files = [];
+var files = {};
 var imageExtensions = ['.jpeg', '.jpg', '.png', '.pdf', '.eps']; // LaTeX allowed image formats
 var splitFileRe = /(.+?)(\.[^.]*$|$)/; //http://stackoverflow.com/a/624877/2628463
 var input_files = [];
 var data_dir = "data";
 var images_dir = "images";
 
+var generateRandomSuffix = function(filename){
+    split = splitFileRe.exec(filename);
+    if(split == null){
+        file_name = filename + Math.random().toString(36).substring(7);
+    }else{
+        file_name = split[1] + Math.random().toString(36).substring(7) + split[2];
+    }
+};
+
 file_selector.onchange = function(e){
 
-
     var file = this.files[0];
-    var same_name = files.filter(function(value){
-       return value.filename == file.name;
-    });
+    var same_name = files[file.name];
     var file_name = file.name;
-    if(same_name.length > 0){
-        split = splitFileRe.exec(file.name);
-        if(split == null){
-            file_name = file.name + Math.random().toString(36).substring(7);
-        }else{
-            file_name = split[1] + Math.random().toString(36).substring(7) + split[2];
-        }
+
+    if(same_name !== undefined){
+        file_name = generateRandomSuffix(file_name);
     }
 
     insertFileInList(new CustomFile(file, file_name));
 
-    //files.push({given_name:file_name, file:file});
     this.value = "";
 
-    /*var input_file = document.createElement("input");
-    input_file.setAttribute("type", "file");
-    input_file.setAttribute("style", "display:none");
-    input_file.setAttribute("name", "file_"+input_files.length);
-    input_file.setAttribute("id", "id_"+input_files.length);
-    form.appendChild(input_file);
-    input_files.push(input_file);*/
 };
 
 form.onsubmit = function(e){
     e.preventDefault();
     var form_data = new FormData();
     var received_file_name = "render.zip";
-    files.forEach(function(file){
-       form_data.append(file.filename, file.file);
-    });
+
+    for(var index in files){
+        form_data.append(index, files[index].file);
+    }
+
     form_data.append("markdown-data", document.getElementById('text-input-area').value);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/render/", true);
@@ -131,22 +132,6 @@ var getClosest = function (elem, selector) {
 
 };
 
-var CustomFile = function(file, filename){
-    this.file = file;
-    this.filename = filename;
-};
-
-CustomFile.prototype.isImage = function(filename){
-    return imageExtensions.indexOf(splitFileRe.exec(filename)[2]) > -1;
-};
-
-CustomFile.prototype.generateMdFileText = function(){
-    var str = this.isImage() ? "!": "";
-    var dir = this.isImage() ? images_dir : data_dir;
-    str += "[" + this.filename + "]"+"("+dir+"/"+this.filename+")";
-    return str;
-};
-
 var insertFileInList = function(file){
     var fileHtml = '<li data-file="'+file.filename+'" class="file">'+file.filename +
         '<a href="" class="file-control file-control-insert pull-right">' +
@@ -158,26 +143,25 @@ var insertFileInList = function(file){
     var wrapper = document.createElement('div');
     wrapper.innerHTML = fileHtml;
     fileList.appendChild(wrapper.firstChild);
-    files.push(file);
+    files[file.filename]= file;
 };
 
 var deleteFileInList = function(element){
     var file = getClosest(element, '.file');
     var filename = file.dataset.file;
 
-    var f = files.find(function(file){
-       return file.filename == filename;
-    });
+    delete files[filename];
+
     document.getElementById('files').removeChild(file);
-    files.splice(files.indexOf(f), 1);
+
 };
 
 var insertText = function(htmlElement){
 
-    var file = getClosest(htmlElement, '.file').dataset.file;
+    var file = files[getClosest(htmlElement, '.file').dataset.file];
 
-    var text = generateMdFileText(file, isImage(file));
-    
+    var text = file.generateMdFileText();
+
     var markdownField = document.getElementById("text-input-area");
 
     //IE support
@@ -213,3 +197,52 @@ document.getElementById('files').addEventListener("click", function(e){
 
     }
 });
+
+var fileInput = document.getElementById('file-input');
+fileInput.addEventListener('dragenter', function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    //$(this).css('border', '2px solid #0B85A1');
+});
+
+fileInput.addEventListener('dragover', function(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+});
+
+fileInput.addEventListener('drop', function(e){
+    e.stopPropagation();
+    //$(this).css('border', '2px dotted #0B85A1');
+    e.preventDefault();
+    var event = e.originalEvent === undefined ? e : e.originalEvent;
+    var draggedFiles = event.dataTransfer.files;
+    for(var i = 0; i < draggedFiles.length; ++i){
+        var fileName = draggedFiles[i].name;
+
+        if(files[fileName] !== undefined){
+            fileName = generateRandomSuffix(fileName);
+        }
+
+        var newFile = new CustomFile(draggedFiles[i], fileName);
+        insertFileInList(newFile);
+    }
+    /*event.dataTransfer.files.forEach(function(file){
+        console.log(file);
+    });*/
+});
+
+/*var obj = $("#dragandrophandler");
+
+
+    obj.on('drop', function(e) {
+
+
+        e.preventDefault();
+        var files = e.originalEvent.dataTransfer.files;
+        for (var i = 0; i < files.length; i++) {
+            files_to_upload.push({file: files[i]});
+            fileCount++;
+            addToList(files[i]);
+        }
+    });*/

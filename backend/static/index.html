@@ -1,1 +1,40 @@
-<html><head><link type="text/css" rel="stylesheet" href="css/main.css"/><link type="text/css" rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css"/><title>Generador de documentos</title><meta charset="UTF-8"/></head><body><div id="header"><img src="img/ritsi-logo.svg"/><p>Generador de textos</p></div><div id="body"><div id="controls"></div><div class="container"><form id="dataform" method="post" enctype="multipart/form-data"><div id="text-input"><textarea name="text-input-area" id="text-input-area"></textarea></div><div id="sidebar"><div id="file-input"><ul id="files"><li data-file="file.jpg" class="file">Name<a href="" class="file-control file-control-insert pull-right"><span title="Insertar referencia en el texto"><i class="file-control-icon file-control-insert fa fa-edit"></i></span></a><a href="" class="file-control file-control-delete pull-right"><span title="Eliminar fichero"><i class="file-control-icon file-control-delete fa fa-times"></i></span></a></li></ul><p>Arrastra imágenes o ficheros</p><input id="file-selector" name="file" type="file"/></div><div id="options"></div><button id="submit" type="submit">Enviar</button></div></form></div><div><script type="text/javascript" src="js/main.js"></script><script type="text/javascript" src="js/FileSaver.js"></script></div></div></body></html>
+
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="css/main.css"/>
+    <link type="text/css" rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css"/>
+    <title>Generador de documentos</title>
+    <meta charset="UTF-8"/>
+  </head>
+  <body>
+    <div id="header"><img src="img/ritsi-logo.svg"/>
+      <p>Generador de textos</p>
+    </div>
+    <div id="body">
+      <div id="controls"></div>
+      <div class="container">
+        <form id="dataform" method="post" enctype="multipart/form-data">
+          <div id="text-input">
+            <textarea name="text-input-area" id="text-input-area"></textarea>
+          </div>
+          <div id="sidebar">
+            <div id="file-input">
+              <ul id="files">
+                <li data-file="file.jpg" class="file">Name<a href="" class="file-control file-control-insert pull-right"><span title="Insertar referencia en el texto"><i class="file-control-icon file-control-insert fa fa-edit"></i></span></a><a href="" class="file-control file-control-delete pull-right"><span title="Eliminar fichero"><i class="file-control-icon file-control-delete fa fa-times"></i></span></a></li>
+              </ul>
+              <p>Arrastra imágenes o ficheros</p>
+              <input id="file-selector" name="file" type="file"/>
+            </div>
+            <div id="options"></div>
+            <button id="submit" type="submit">Enviar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <script type="text/javascript" src="js/FileSaver.js"></script>
+        <script type="text/javascript" src="js/ArrayPolyfill.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

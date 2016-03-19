@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function(e){
 
 }, false);
 
+
+
 var file_selector = document.getElementById("file-selector");
 var form = document.getElementById("dataform");
 var files = [];
@@ -16,8 +18,8 @@ file_selector.onchange = function(e){
 
 
     var file = this.files[0];
-    var same_name = files.filter(function(value, index){
-       return value.name == file.name;
+    var same_name = files.filter(function(value){
+       return value.filename == file.name;
     });
     var file_name = file.name;
     if(same_name.length > 0){
@@ -28,7 +30,10 @@ file_selector.onchange = function(e){
             file_name = split[1] + Math.random().toString(36).substring(7) + split[2];
         }
     }
-    files.push({given_name:file_name, file:file});
+
+    insertFileInList(new CustomFile(file, file_name));
+
+    //files.push({given_name:file_name, file:file});
     this.value = "";
 
     /*var input_file = document.createElement("input");
@@ -45,7 +50,7 @@ form.onsubmit = function(e){
     var form_data = new FormData();
     var received_file_name = "render.zip";
     files.forEach(function(file){
-       form_data.append(file.given_name, file.file);
+       form_data.append(file.filename, file.file);
     });
     form_data.append("markdown-data", document.getElementById('text-input-area').value);
     var xhr = new XMLHttpRequest();
@@ -126,36 +131,70 @@ var getClosest = function (elem, selector) {
 
 };
 
-var isImage = function(filename){
+var CustomFile = function(file, filename){
+    this.file = file;
+    this.filename = filename;
+};
+
+CustomFile.prototype.isImage = function(filename){
     return imageExtensions.indexOf(splitFileRe.exec(filename)[2]) > -1;
 };
 
-var generateMdFileText = function(filename, image){
-    var str = image ? "!": "";
-    var dir = image ? images_dir : data_dir;
-    str += "[" + filename + "]"+"("+dir+"/"+filename+")";
-
+CustomFile.prototype.generateMdFileText = function(){
+    var str = this.isImage() ? "!": "";
+    var dir = this.isImage() ? images_dir : data_dir;
+    str += "[" + this.filename + "]"+"("+dir+"/"+this.filename+")";
     return str;
+};
 
+var insertFileInList = function(file){
+    var fileHtml = '<li data-file="'+file.filename+'" class="file">'+file.filename +
+        '<a href="" class="file-control file-control-insert pull-right">' +
+        '<span title="Insertar referencia en el texto"><i class="file-control-icon file-control-insert fa fa-edit"></i></span></a>' +
+        '<a href="" class="file-control file-control-delete pull-right">' +
+        '<span title="Eliminar fichero"><i class="file-control-icon file-control-delete fa fa-times"></i></span></a></li>';
+
+    var fileList = document.getElementById('files');
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = fileHtml;
+    fileList.appendChild(wrapper.firstChild);
+    files.push(file);
+};
+
+var deleteFileInList = function(element){
+    var file = getClosest(element, '.file');
+    var filename = file.dataset.file;
+
+    var f = files.find(function(file){
+       return file.filename == filename;
+    });
+    document.getElementById('files').removeChild(file);
+    files.splice(files.indexOf(f), 1);
 };
 
 var insertText = function(htmlElement){
+
     var file = getClosest(htmlElement, '.file').dataset.file;
 
     var text = generateMdFileText(file, isImage(file));
-
+    
     var markdownField = document.getElementById("text-input-area");
+
     //IE support
     if(document.selection){
         markdownField.focus();
-    }else if(markdownField.selectionStart || markdownField.selectionStart == '0'){
+    }
+    else if(markdownField.selectionStart || markdownField.selectionStart == '0'){
         var startPos = markdownField.selectionStart;
         var endPos = markdownField.selectionEnd;
-        markdownField.value = markdownField.value.substring(0, startPos) + text
+        markdownField.value = markdownField.value.substring(0, startPos)
+                                + text
                                 + markdownField.value.substring(endPos, markdownField.value.length);
+
         markdownField.selectionStart = markdownField.selectionEnd = startPos + text.length;
         //TODO: Consider using selectionEnd = endPos + text.length to have the inserted text highlighted
-    }else{
+    }
+    else{
         markdownField.value += text;
     }
 };
@@ -169,7 +208,7 @@ document.getElementById('files').addEventListener("click", function(e){
         }
 
         else if(e.target.classList.contains('file-control-delete')){
-            removeFile(e.target);
+            deleteFileInList(e.target);
         }
 
     }

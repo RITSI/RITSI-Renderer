@@ -65,6 +65,9 @@ div#file-input{
 }
 
 .file{
+    /*max-height:0;
+    transition: max-height 0.15s ease-out;*/
+
 	box-sizing: border-box;
 	text-align: left;
 	width: 100%;
@@ -74,6 +77,11 @@ div#file-input{
 	padding-left: 10px;
 	background-color: #e04543;
 }
+
+/*.expand{
+    max-height:500px;
+    transition: max-height 0.25s ease-in;
+}*/
 
 .file:hover{
 	background-color: #ea7b79;

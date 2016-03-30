@@ -227,9 +227,7 @@ fileInput.addEventListener('drop', function(e){
         var newFile = new CustomFile(draggedFiles[i], fileName);
         insertFileInList(newFile);
     }
-    /*event.dataTransfer.files.forEach(function(file){
-        console.log(file);
-    });*/
+
 });
 
 /*var obj = $("#dragandrophandler");

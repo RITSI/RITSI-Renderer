@@ -1,3 +1,7 @@
+/*
+ * A simple File object for the specific purposes of this project
+ */
+
 var CustomFile = function(file, filename){
     this.file = file;
     this.filename = filename;

@@ -1,8 +1,14 @@
+/*
+ * Checks if the drag and drop functionality is available.
+ */
 var supportsDragAndDrop = (function() {
     var div = document.createElement('div');
     return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
 })();
 
+/*
+* TODO: Here should be all the logic, since it will fire when the document is reqdy
+*/
 document.addEventListener('DOMContentLoaded', function(e){
 	var submitButton = document.getElementById('submit');
 
@@ -19,6 +25,9 @@ var input_files = [];
 var data_dir = "data";
 var images_dir = "images";
 
+/*
+ * Allows for files with same names. Not really necessary, the API should cover everything
+ */
 var generateRandomSuffix = function(filename){
     split = splitFileRe.exec(filename);
     if(split == null){
@@ -28,6 +37,9 @@ var generateRandomSuffix = function(filename){
     }
 };
 
+/*
+ * Create a CustomFile file object and append it to the list
+ */
 file_selector.onchange = function(e){
 
     var file = this.files[0];
@@ -44,6 +56,9 @@ file_selector.onchange = function(e){
 
 };
 
+/*
+ * Processes the list of files and sends the data.
+ */
 form.onsubmit = function(e){
     e.preventDefault();
     var form_data = new FormData();
@@ -66,6 +81,9 @@ form.onsubmit = function(e){
     xhr.send(form_data);
 };
 
+/*
+ * AJAX!
+ */
 var send = function(){
 	var text = document.getElementById('text-input-area').value;
 	console.log(text); return;
@@ -132,6 +150,11 @@ var getClosest = function (elem, selector) {
 
 };
 
+/*
+ * Inserts the file in the array and also creates the frontend functionality
+ * @param file {Object} The File object
+ *
+ */
 var insertFileInList = function(file){
     var fileHtml = '<li data-file="'+file.filename+'" class="file">'+file.filename +
         '<a href="" class="file-control file-control-insert pull-right">' +
@@ -146,6 +169,9 @@ var insertFileInList = function(file){
     files[file.filename]= file;
 };
 
+/*
+ * Removes file in list and in the interface.
+ */
 var deleteFileInList = function(element){
     var file = getClosest(element, '.file');
     var filename = file.dataset.file;
@@ -156,6 +182,9 @@ var deleteFileInList = function(element){
 
 };
 
+/*
+ * Appends text to the input area when the 'paste in text' button is clicked
+ */
 var insertText = function(htmlElement){
 
     var file = files[getClosest(htmlElement, '.file').dataset.file];
@@ -183,6 +212,9 @@ var insertText = function(htmlElement){
     }
 };
 
+/*
+ * Event binding
+ */
 document.getElementById('files').addEventListener("click", function(e){
     e.preventDefault();
     if(e.target && (e.target.matches('i.file-control-icon') || e.target.matches('a.file-control'))){
@@ -198,6 +230,9 @@ document.getElementById('files').addEventListener("click", function(e){
     }
 });
 
+/*
+ * Drag and Drop functionality.
+ */
 var fileInput = document.getElementById('file-input');
 fileInput.addEventListener('dragenter', function(e){
     e.stopPropagation();

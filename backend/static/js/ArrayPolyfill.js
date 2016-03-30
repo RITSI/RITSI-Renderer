@@ -1,5 +1,6 @@
 /*
  From MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find#Polyfill
+ A simple polyfill for the `find()` method
  */
 if (!Array.prototype.find) {
   Array.prototype.find = function(predicate) {

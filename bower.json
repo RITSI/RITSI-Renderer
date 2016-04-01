@@ -1,4 +1,6 @@
 {
+  "name": "ritsi-renderer",
+  "version": "0.0.1",
   "dependencies": {
     "font-awesome": "~4.5.0"
   }

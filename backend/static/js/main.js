@@ -74,7 +74,6 @@ form.onsubmit = function(e){
     xhr.setRequestHeader("Accept","application/zip");
     xhr.responseType = "blob";
     xhr.onload = function(e){
-        console.log("Here")
         if(this.status==200)
             saveAs(this.response, received_file_name);
     };
@@ -83,6 +82,7 @@ form.onsubmit = function(e){
 
 /*
  * AJAX!
+ * TODO: This function is no longer in use
  */
 var send = function(){
 	var text = document.getElementById('text-input-area').value;

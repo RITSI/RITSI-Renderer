@@ -69,6 +69,14 @@ form.onsubmit = function(e){
     }
 
     form_data.append("markdown-data", document.getElementById('text-input-area').value);
+    //añadir plantilla seleccionada y tamaño de la imagen
+    if(document.getElementById('use-template').checked) {
+        form_data.append("selected-template", document.getElementById('select-template').value)
+    }
+    if(document.getElementById('set-size').checked) {
+        form_data.append("image-width", document.getElementById('width').value);
+        form_data.append("image-height", document.getElementById('height').value);
+    }
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/render/", true);
     xhr.setRequestHeader("Accept","application/zip");

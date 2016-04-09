@@ -39,14 +39,14 @@ div#sidebar{
 div #file-input{
 	float: left;
 	width: 25%;
-	height: 75%;
+	height: 65%;
 	background: #ededed;
 }
 
 div #options {
 	float: left;
 	width: 25%;
-	height: 20%;
+	height: 30%;
 	background: #897d63;
 }
 

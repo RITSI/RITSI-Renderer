@@ -20,12 +20,27 @@
           <div id="sidebar">
             <div id="file-input">
               <ul id="files">
-                <li data-file="file.jpg" class="file">Name<a href="" class="file-control file-control-insert pull-right"><span title="Insertar referencia en el texto"><i class="file-control-icon file-control-insert fa fa-edit"></i></span></a><a href="" class="file-control file-control-delete pull-right"><span title="Eliminar fichero"><i class="file-control-icon file-control-delete fa fa-times"></i></span></a></li>
+                <li data-file="file.jpg" class="file">Nombre de los ficheros<a href="" class="file-control file-control-insert pull-right"><span title="Insertar referencia en el texto"><i class="file-control-icon file-control-insert fa fa-edit"></i></span></a><a href="" class="file-control file-control-delete pull-right"><span title="Eliminar fichero"><i class="file-control-icon file-control-delete fa fa-times"></i></span></a></li>
               </ul>
               <p>Arrastra imágenes o ficheros</p>
               <input id="file-selector" name="file" type="file"/>
             </div>
-            <div id="options"></div>
+            <div id="options">
+            <!--opciones añadidas para seleccionar plantilla y introducir el tamaño de la imagen-->
+            	<h3>Opciones</h3>
+            	<input type="checkbox" id="use-template" name="use-template">Usar plantilla facilitada<br>
+            	<label for="select-template">plantilla:</label>
+              	<select id="select-template" name="select-template">
+  					<option value="template1">Plantilla 1</option> 
+  					<option value="template2">Plantilla 2</option>
+  					<option value="template3">Plantilla 3</option>
+			  	</select><br>
+            	<input type="checkbox" id="set-size" name="set-size">Especificar tamaño de la imagen<br>
+            	<label for="width">ancho de la imagen:</label>
+  				<input type="number" min="1" id="width" name="width"><br>
+  				<label for="height">alto de la imagen</label>
+  				<input type="number" min="1" id="height" name="height"><br>
+            </div>	
             <button id="submit" type="submit">Enviar</button>
           </div>
         </form>
